@@ -62,3 +62,40 @@ p{
     color: #fff;
     margin-bottom: 12px;
 }
+
+
+#ideaInput{
+    background: rgba(255, 255, 255, .5);
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    padding: 12px 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);    
+}
+
+#ideaInput:focus{
+    outline: none;
+    border-color: rgba(255, 255, 255, .8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+}
+
+#ideaInput::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#micBtn, #judgeBtn{
+    background: rgba(255, 255, 255, .5);
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 12px 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    cursor: pointer;
+}
+
+#micBtn:hover, #judgeBtn:hover{
+    background: rgba(255, 255, 255, .7);
+    border-color: rgba(255, 255, 255, .7);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaVault-New Idea</title>
+    <link rel="stylesheet" href="home-style.css">
+</head>
+<body>
+
+    <div class="app">
+        <nav class="sidebar">
+            <h2>IdeaVault</h2>
+            <a href="home.html">Home</a>
+            <a href="new-idea.html">New Idea</a>
+            <a href="history.html">History</a>
+            <a href="profile.html">Profile</a>
+            
+            <button id="logoutBtn">Log out</button>
+        </nav>
+
+        <main>
+            <h1>Whats on your mind?</h1>
+            <textarea id="ideaInput" rows="6" style="width: 100%;" placeholder="Type your idea hear or hit the mic..."></textarea>
+            <br><br>
+            <button id="micBtn">🎤 Speak</button>
+            <button id="judgeBtn"> Judge this idea.</button>
+        </main>
+    <script>
+        const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new speechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        document.getElementById("micBtn").addEventListener("click", () => {
+            recognition.start();
+        });
+
+        recognition.addEventListener("result", (event) =>{
+            const transcript = event.result[0][0].transcript;
+            document.getElementById("ideaInput").value = transcript;
+        });
+
+    </script>
+</body>
+</html>
