@@ -4,9 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IdeaVault-Home</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home-style.css">
 </head>
 <body>
+    <div class="app">
+        <nav class="sidebar">
+            <h2>IdeaVault</h2>
+            <a href="home.html">Home</a>
+            <a href="new-idea.html">New Idea</a>
+            <a href="history.html">History</a>
+            <a href="profile.html">Profile</a>
+            
+            <button id="logoutBtn">Log out</button>
+        </nav>
+
+        <main>
+            <h1>Welcome, <span id="user-email"></span></h1>
+            <p>Whats on your mind?</p>
+        </main>
+    </div>
     
+
+    <script>
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await supabaseClient.auth.signOut();
+        window.location.href = "login.html";
+    });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+
+    <script>
+        async function checkSession() {
+            const { data, error } = await supabaseClient.auth.getSession();
+
+            if (!data.session) {
+                // no one's logged in — kick them back to login
+                window.location.href = "login.html";
+                return;
+            }
+
+            // logged in — grab their info
+            const user = data.session.user;
+            console.log("Logged in as:", user.email);
+
+            // example: show their email somewhere on the page
+            const emailDisplay = document.getElementById("user-email");
+            if (emailDisplay) {
+                emailDisplay.textContent = user.email;
+            }
+        }
+
+        checkSession();
+    </script>
 </body>
 </html>
