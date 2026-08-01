@@ -26,21 +26,36 @@
             <button id="micBtn">🎤 Speak</button>
             <button id="judgeBtn"> Judge this idea.</button>
         </main>
-    <script>
-        const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new speechRecognition();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
+<script>
+    let mediaRecorder;
+    let audioChunks = [];
 
-        document.getElementById("micBtn").addEventListener("click", () => {
-            recognition.start();
-        });
+    document.getElementById("micBtn").addEventListener("click", async () => {
+        console.log("Mic button clicked!");   // <-- add this line here
 
-        recognition.addEventListener("result", (event) =>{
-            const transcript = event.result[0][0].transcript;
-            document.getElementById("ideaInput").value = transcript;
-        });
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            // start recording
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
 
-    </script>
+            mediaRecorder.addEventListener("dataavailable", (event) => {
+                audioChunks.push(event.data);
+            });
+
+            mediaRecorder.addEventListener("stop", async () => {
+                const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+                await transcribeAudio(audioBlob);
+            });
+
+            mediaRecorder.start();
+            document.getElementById("micBtn").textContent = "⏹ Stop recording";
+        } else {
+            // stop recording
+            mediaRecorder.stop();
+            document.getElementById("micBtn").textContent = "🎤 Speak";
+        }
+    });
+</script>
 </body>
 </html>
